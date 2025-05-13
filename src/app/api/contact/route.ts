@@ -8,7 +8,7 @@ export async function POST(req: Request) {
 
     // Create email content
     const emailContent = {
-      from: `"${firstName} ${lastName}" <${email}>`,
+      from: process.env.SMTP_USER || `"${firstName} ${lastName}" <${email}>`,
       to: "rishith@narsinghdass.com",
       subject: "New Contact Form Submission",
       text: `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
@@ -18,8 +18,8 @@ export async function POST(req: Request) {
              <p><strong>Message:</strong> ${message}</p>`,
     };
 
-    // Check if we're in development mode
-    const isDevelopment = process.env.NODE_ENV === "development";
+    // Check if we're in development mode and not forcing email sending
+    const isDevelopment = process.env.NODE_ENV === "development" && process.env.FORCE_SEND_EMAIL !== "true";
 
     if (isDevelopment) {
       // In development, just log the email content
@@ -32,13 +32,16 @@ export async function POST(req: Request) {
       console.log("Message:", emailContent.text);
       console.log("==========================================");
     } else {
-      // In production, actually send the email
-      // Log SMTP configuration (without password)
+      // In production or when forcing email sending, actually send the email
       console.log("SMTP Configuration:");
       console.log("Host:", process.env.SMTP_HOST);
       console.log("Port:", process.env.SMTP_PORT);
       console.log("Secure:", process.env.SMTP_SECURE);
       console.log("User:", process.env.SMTP_USER);
+
+      if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+        throw new Error("Missing SMTP configuration. Please check your environment variables.");
+      }
 
       // Create transporter with detailed configuration
       const transportConfig = {
@@ -51,7 +54,11 @@ export async function POST(req: Request) {
         },
         // Debug options
         debug: true,
-        logger: true
+        logger: true,
+        // Add these options for Gmail
+        tls: {
+          rejectUnauthorized: false
+        }
       };
 
       console.log("Creating transporter with config:", JSON.stringify({
