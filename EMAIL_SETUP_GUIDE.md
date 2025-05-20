@@ -4,7 +4,7 @@ This guide explains how to set up the email functionality for the contact form o
 
 ## Overview
 
-The contact form on your website is configured to send emails to `sourabh.mourya20015@gmail.com` when users submit the form. For this to work in production, you need to configure SMTP settings.
+The contact form on your website is configured to send emails to `rishith@narsinghdass.com` when users submit the form. For this to work in production, you need to configure SMTP settings.
 
 ## SMTP Configuration
 
@@ -82,7 +82,7 @@ After setting up the environment variables:
 1. Deploy your application
 2. Go to the Contact page
 3. Fill out and submit the form
-4. Check if the email is received at sourabh.mourya20015@gmail.com
+4. Check if the email is received at rishith@narsinghdass.com
 5. If not, check the server logs for error messages
 
 ## Troubleshooting
