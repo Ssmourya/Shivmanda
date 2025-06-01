@@ -12,8 +12,8 @@ const raleway = Raleway({
 });
 
 export const metadata: Metadata = {
-  title: "Shivmada | Construction Company",
-  description: "Shivmada",
+  title: "Shivananda Marketing Pvt. Ltd.",
+  description: "Shivananda",
   icons: '/favicon.ico',
 };
 
@@ -31,7 +31,7 @@ export default function RootLayout({
         <Header />
         {children}
         <a
-          href="https://wa.me/919873173297"
+          href="https://wa.me/+919205992676"
           target="_blank"
           rel="noopener noreferrer"
           className="size-12 rounded-full fixed bottom-5 right-5 bg-slate-200 cursor-pointer shadow-2xl flex items-center justify-center hover:bg-slate-100 transition-colors"

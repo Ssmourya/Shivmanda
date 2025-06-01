@@ -98,7 +98,7 @@ const Footer = () => {
                 {/* Bottom Section */}
                 <div className="border-t border-gray-300 py-4 text-center">
                     <p className='text-xs text-Dark'>
-                        &copy; {new Date().getFullYear()} SHIVANANDA MARKETING. All rights reserved.
+                        &copy; {new Date().getFullYear()} SHIVANANDA MARKETING Pvt.Ltd. All rights reserved.
                     </p>
                 </div>
             </div>

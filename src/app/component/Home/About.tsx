@@ -14,8 +14,9 @@ const About = () => {
                 <p className="text-Body text-gray-700 text-lg font-medium mb-3">
                   Established in 1958, Narsingh Dass Group is a multifarious
                   trading group which is based on the values of Trust,
-                  Compassion, Togetherness and Excellence. Shivananda Marketing
-                  Pvt. Ltd. offers innovative technologies and specialty
+                  Compassion, Togetherness and Excellence. <span className="font-bold">
+                    Shivananda Marketing
+                    Pvt. Ltd.</span>,a group company, offers innovative technologies and specialty
                   materials in emerging and growing sectors of our society. Over
                   the years, it has become one of the leading solution providers
                   of high-performance chemicals and fibres in the paper,

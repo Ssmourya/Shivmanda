@@ -121,6 +121,8 @@ import React from "react";
 import Image from "next/image";
 import fs from "fs/promises";
 import path from "path";
+import OurProject from '../../component/Home/OurProject'
+
 
 interface Project {
   slug: string;
@@ -287,19 +289,6 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
           </div>
         )}
 
-
-
-        {project?.storage && (
-          <div
-            className="pb-4 mt-5"
-          >
-            <h2 className="text-3xl  font-bold mb-6 text-[var(--foreground)]">
-              Storage Condition
-            </h2>
-            <p className="text-[var(--text-body)] text-gray-600 max-w-4xl">{project.storage}</p>
-          </div>
-        )}
-
         {/* Application Section */}
         {project.application && (
           <div className="mt-12">
@@ -342,6 +331,19 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
           </div>
         )}
 
+
+        {/* Storage */}
+        {project?.storage && (
+          <div
+            className="pb-4 mt-5"
+          >
+            <h2 className="text-3xl  font-bold mb-6 text-[var(--foreground)]">
+              Storage Condition
+            </h2>
+            <p className="text-[var(--text-body)] text-gray-600 max-w-4xl">{project.storage}</p>
+          </div>
+        )}
+
         {/* Conclusion Section - Only for Cellulose Fiber Pellets (SMA) */}
 
         {project.slug === 'cellulose-fiber-pellets' && (
@@ -351,7 +353,7 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
             </h2>
             <div className="text-gray-600 text-[var(--text-body)] space-y-4">
               <p>
-                Stone Matrix Asphalt (SMA) represents a significant advancement in road construction technology, offering superior durability, rut resistance, and longevity compared to conventional asphalt mixes. The incorporation of high-quality cellulose fiber pellets is crucial to SMA&apos;s performance, preventing binder drain-down and enhancing the overall stability of the mix.
+                Stone Matrix Asphalt (SMA) represents a significant advancement in road construction technology, offering superior durability, rut resistance, and longevity compared to conventional asphalt mixes.
               </p>
               <p>
                 While SMA may have a higher initial cost, its long-term benefits&mdash;including reduced maintenance requirements, extended service life, and improved safety characteristics&mdash;make it a cost-effective solution for high-traffic roads, highways, and other demanding applications.
@@ -364,18 +366,44 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
         )}
 
         {/* Download PDF Button */}
-        {project.pdfURL && (
-          <a
-            href={project.pdfURL}
-            download
-            className="inline-block bg-[var(--text-dark)] text-white px-6 py-3 rounded-lg text-lg font-semibold mt-5 hover:bg-opacity-90 transition-all"
-          >
-            Download Brochure
-          </a>
+        {project.slug === 'synthetic-fibre' ? (
+          <div className="flex flex-col sm:flex-row gap-4 mt-6">
+            <a
+              href="../pdf/Recron 3s Advantage.pdf"
+              download
+              className="inline-block bg-[var(--text-dark)] text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-opacity-90 transition-all"
+            >
+            Recron 3s Advantage Brochure
+            </a>
+            <a
+              href="../pdf/Recron 3s Application wise Dosage Recommendations.pdf"
+              download
+              className="inline-block bg-[var(--text-dark)] text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-opacity-90 transition-all"
+            >
+              Download Recron 3s Application
+            </a>
+            <a
+              href={project.pdfURL}
+              download
+              className="inline-block bg-[var(--text-dark)] text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-opacity-90 transition-all"
+            >
+              Download General Brochure
+            </a>
+          </div>
+        ) : (
+          project.pdfURL && (
+            <a
+              href={project.pdfURL}
+              download
+              className="inline-block bg-[var(--text-dark)] text-white px-6 py-3 rounded-lg text-lg font-semibold mt-5 hover:bg-opacity-90 transition-all"
+            >
+              Download Brochure
+            </a>
+          )
         )}
 
         {/* Gallery Section */}
-        <div className="mt-12">
+        <div className="mt-12 mb-8">
           <h2 className="text-3xl font-bold mb-8 text-[var(--foreground)]">
             PRODUCT GALLERY
           </h2>
@@ -395,23 +423,10 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
             ))}
           </div>
         </div>
-
-        {/* Call to Action */}
-        {/* <div className="relative mt-32 mb-16">
-          <div className="bg-primaryColor rounded-2xl px-4 py-16 md:p-16">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--text-dark)] mb-6">
-                Want to Create Your Dream Project?
-              </h2>
-              <div className="flex flex-col md:flex-row items-center justify-center gap-6 mt-8">
-                <button className="w-full md:w-auto bg-[var(--text-dark)] text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-opacity-90 transition-all">
-                  CONTACT US
-                </button>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </section>
+      <div className="overflow-x-hidden">
+        <OurProject />
+      </div>
     </main>
   );
 }
