@@ -4,7 +4,7 @@ module.exports = {
     apps: [
         {
             name: "Shivmanda",
-            script: "app.js",
+            script: "/src/page.tsx",
             watch: true,
             port: 3000
         }
