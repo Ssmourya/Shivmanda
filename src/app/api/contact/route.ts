@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-// Ensure environment variables are loaded
-if (typeof window === 'undefined') {
-  require('dotenv').config({ path: '.env.local' });
+// Ensure environment variables are loaded (only in development)
+if (typeof window === 'undefined' && process.env.NODE_ENV === 'development') {
+  try {
+    require('dotenv').config({ path: '.env.local' });
+  } catch (error) {
+    console.log('dotenv not available, using system environment variables');
+  }
 }
 
 export async function POST(req: Request) {
@@ -78,7 +82,22 @@ export async function POST(req: Request) {
         console.error("SMTP_HOST:", !!process.env.SMTP_HOST);
         console.error("SMTP_USER:", !!process.env.SMTP_USER);
         console.error("SMTP_PASS:", !!process.env.SMTP_PASS);
-        throw new Error("Missing required SMTP environment variables");
+        console.error("Available env vars:", Object.keys(process.env).filter(key => key.includes('SMTP')));
+
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Server configuration error: Missing email configuration",
+            error: "SMTP environment variables not configured",
+            debug: process.env.NODE_ENV === "development" ? {
+              hasHost: !!process.env.SMTP_HOST,
+              hasUser: !!process.env.SMTP_USER,
+              hasPass: !!process.env.SMTP_PASS,
+              nodeEnv: process.env.NODE_ENV
+            } : undefined
+          },
+          { status: 500 }
+        );
       }
 
       // Create transporter with detailed configuration
@@ -107,7 +126,28 @@ export async function POST(req: Request) {
         console.log("SMTP connection verified successfully");
       } catch (verifyError: any) {
         console.error("SMTP connection verification failed:", verifyError);
-        throw new Error(`SMTP verification failed: ${verifyError.message || 'Unknown error'}`);
+        console.error("Verify error details:", {
+          message: verifyError.message,
+          code: verifyError.code,
+          command: verifyError.command,
+          response: verifyError.response
+        });
+
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Email service connection failed",
+            error: `SMTP verification failed: ${verifyError.message || 'Unknown error'}`,
+            errorCode: verifyError.code,
+            debug: process.env.NODE_ENV === "development" ? {
+              host: process.env.SMTP_HOST,
+              port: process.env.SMTP_PORT,
+              secure: process.env.SMTP_SECURE,
+              user: process.env.SMTP_USER
+            } : undefined
+          },
+          { status: 500 }
+        );
       }
 
       // Send the email
