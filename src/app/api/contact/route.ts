@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
+// Ensure environment variables are loaded
+if (typeof window === 'undefined') {
+  require('dotenv').config({ path: '.env.local' });
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -64,6 +69,17 @@ export async function POST(req: Request) {
       console.log("Port:", process.env.SMTP_PORT);
       console.log("Secure:", process.env.SMTP_SECURE);
       console.log("User:", process.env.SMTP_USER);
+      console.log("NODE_ENV:", process.env.NODE_ENV);
+      console.log("FORCE_SEND_EMAIL:", process.env.FORCE_SEND_EMAIL);
+
+      // Check if environment variables are properly loaded
+      if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+        console.error("Missing required environment variables!");
+        console.error("SMTP_HOST:", !!process.env.SMTP_HOST);
+        console.error("SMTP_USER:", !!process.env.SMTP_USER);
+        console.error("SMTP_PASS:", !!process.env.SMTP_PASS);
+        throw new Error("Missing required SMTP environment variables");
+      }
 
       // Create transporter with detailed configuration
       const transportConfig = {
