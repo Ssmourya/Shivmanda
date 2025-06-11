@@ -9,7 +9,7 @@ interface FormValues {
   firstName: string;
   lastName: string;
   email: string;
-  phone?: number;
+  phone?: string;
   message: string;
 }
 
@@ -62,7 +62,7 @@ export default function Contact() {
       firstName: formData.get("firstName") as string,
       lastName: formData.get("lastName") as string,
       email: formData.get("email") as string,
-      phone: formData.get("phone") ? Number(formData.get("phone")) : undefined,
+      phone: formData.get("phone") as string || undefined,
       message: formData.get("message") as string,
     };
 
@@ -84,7 +84,7 @@ export default function Contact() {
     }
 
     await handleSubmit(values, {
-      setSubmitting: () => {},
+      setSubmitting: () => { },
       resetForm: () => form.reset(),
     });
   };
@@ -103,7 +103,7 @@ export default function Contact() {
                 Get in touch with us
               </h1>
               <p className="text-lg md:text-xl mb-8">
-              Please fill in your details and our dedicated team will reach out to you within 24 hours. Looking forward to discussing opportunities with you and your team.
+                Please fill in your details and our dedicated team will reach out to you within 24 hours. Looking forward to discussing opportunities with you and your team.
               </p>
             </motion.div>
             <motion.div

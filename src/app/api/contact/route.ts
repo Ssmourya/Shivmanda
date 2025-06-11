@@ -6,12 +6,36 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { firstName, lastName, email, phone, message } = body;
 
+    // Validate required fields
+    if (!firstName || !lastName || !email || !message) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Missing required fields: firstName, lastName, email, and message are required",
+        },
+        { status: 400 }
+      );
+    }
+
+    // Validate email format
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid email format",
+        },
+        { status: 400 }
+      );
+    }
+
     // Create email content
     const emailContent = {
-      from: `"${firstName} ${lastName}" <${email}>`,
+      from: process.env.SMTP_USER, // Use authenticated email as sender
+      replyTo: email, // Set user's email as reply-to
       to: "marketingshivananda@gmail.com",
       subject: "New Contact Form Submission",
-      text: `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
+      text: `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone || "Not provided"}\nMessage: ${message}`,
       html: `<p><strong>Name:</strong> ${firstName} ${lastName}</p>
              <p><strong>Email:</strong> ${email}</p>
              <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
@@ -52,7 +76,11 @@ export async function POST(req: Request) {
         },
         // Debug options
         debug: true,
-        logger: true
+        logger: true,
+        // TLS options
+        tls: {
+          rejectUnauthorized: false
+        }
       };
 
       const transporter = nodemailer.createTransport(transportConfig);
@@ -78,14 +106,23 @@ export async function POST(req: Request) {
         ? "Email logged successfully (development mode)"
         : "Email sent successfully!",
     });
-  } catch (error: any) {
-    console.error("Email handling error:", error);
+  }
+  // In the catch block, add more detailed logging
+  catch (error: any) {
+    console.error("Email handling error details:", error);
+    console.error("Error name:", error.name);
+    console.error("Error code:", error.code);
+    console.error("Error command:", error.command);
+    console.error("Error response:", error.response);
+
     // Return more detailed error information
     return NextResponse.json(
       {
         success: false,
         message: "Error processing your request",
         error: error.message,
+        errorCode: error.code,
+        errorName: error.name,
         stack: process.env.NODE_ENV === "development" ? error.stack : undefined
       },
       { status: 500 }
