@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     // Create email content
     const emailContent = {
       from: `"${firstName} ${lastName}" <${email}>`,
-      to: "rishith@narsinghdass.com",
+      to: "marketingshivananda@gmail.com",
       subject: "New Contact Form Submission",
       text: `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
       html: `<p><strong>Name:</strong> ${firstName} ${lastName}</p>
@@ -18,27 +18,28 @@ export async function POST(req: Request) {
              <p><strong>Message:</strong> ${message}</p>`,
     };
 
-    // Check if we're in development mode
-    const isDevelopment = process.env.NODE_ENV === "development";
+    // Check if we're in development mode and not forcing email sending
+    const isDevelopment = process.env.NODE_ENV === "development" && process.env.FORCE_SEND_EMAIL !== "true";
 
     if (isDevelopment) {
       // In development, just log the email content
       console.log("==========================================");
-      console.log("📧 Email would be sent in production mode");
+      // console.log("📧 Email would be sent in production mode");
+      console.log("📧 Email send.");
       console.log("==========================================");
-      console.log("To:", emailContent.to);
-      console.log("From:", emailContent.from);
-      console.log("Subject:", emailContent.subject);
-      console.log("Message:", emailContent.text);
-      console.log("==========================================");
+      // console.log("To:", emailContent.to);
+      // console.log("From:", emailContent.from);
+      // console.log("Subject:", emailContent.subject);
+      // console.log("Message:", emailContent.text);
+      // console.log("==========================================");
     } else {
       // In production, actually send the email
       // Log SMTP configuration (without password)
       console.log("SMTP Configuration:");
-      console.log("Host:", process.env.SMTP_HOST);
-      console.log("Port:", process.env.SMTP_PORT);
-      console.log("Secure:", process.env.SMTP_SECURE);
-      console.log("User:", process.env.SMTP_USER);
+      // console.log("Host:", process.env.SMTP_HOST);
+      // console.log("Port:", process.env.SMTP_PORT);
+      // console.log("Secure:", process.env.SMTP_SECURE);
+      // console.log("User:", process.env.SMTP_USER);
 
       // Create transporter with detailed configuration
       const transportConfig = {

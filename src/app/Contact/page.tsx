@@ -9,7 +9,7 @@ interface FormValues {
   firstName: string;
   lastName: string;
   email: string;
-  phone?: string;
+  phone?: number;
   message: string;
 }
 
@@ -62,7 +62,7 @@ export default function Contact() {
       firstName: formData.get("firstName") as string,
       lastName: formData.get("lastName") as string,
       email: formData.get("email") as string,
-      phone: formData.get("phone") as string,
+      phone: formData.get("phone") ? Number(formData.get("phone")) : undefined,
       message: formData.get("message") as string,
     };
 
@@ -236,9 +236,9 @@ export default function Contact() {
                         </label>
                         <input
                           name="phone"
-                          type="tel"
+                          type="number"
                           className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
-                          placeholder="+1 (555) 000-0000"
+                          placeholder="9876543210"
                         />
                       </div>
                     </div>

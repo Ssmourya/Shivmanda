@@ -52,7 +52,7 @@ async function testEmail() {
     console.log('Sending test email...');
     const info = await transporter.sendMail({
       from: process.env.SMTP_USER,
-      to: 'rishith@narsinghdass.com',
+      to: 'marketingshivananda@gmail.com',
       subject: 'Test Email from Nodemailer',
       text: 'This is a test email to verify Nodemailer configuration.',
       html: '<p>This is a test email to verify Nodemailer configuration.</p>',
