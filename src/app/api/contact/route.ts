@@ -36,10 +36,10 @@ export async function POST(req: Request) {
       // In production, actually send the email
       // Log SMTP configuration (without password)
       console.log("SMTP Configuration:");
-      // console.log("Host:", process.env.SMTP_HOST);
-      // console.log("Port:", process.env.SMTP_PORT);
-      // console.log("Secure:", process.env.SMTP_SECURE);
-      // console.log("User:", process.env.SMTP_USER);
+      console.log("Host:", process.env.SMTP_HOST);
+      console.log("Port:", process.env.SMTP_PORT);
+      console.log("Secure:", process.env.SMTP_SECURE);
+      console.log("User:", process.env.SMTP_USER);
 
       // Create transporter with detailed configuration
       const transportConfig = {
