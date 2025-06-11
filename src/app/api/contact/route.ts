@@ -55,11 +55,6 @@ export async function POST(req: Request) {
         logger: true
       };
 
-      console.log("Creating transporter with config:", JSON.stringify({
-        ...transportConfig,
-        auth: { ...transportConfig.auth, pass: "********" } // Hide password in logs
-      }));
-
       const transporter = nodemailer.createTransport(transportConfig);
 
       // Verify connection configuration

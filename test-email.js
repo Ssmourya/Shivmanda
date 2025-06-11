@@ -30,11 +30,6 @@ async function testEmail() {
     }
   };
 
-  console.log('Creating transporter with config:', JSON.stringify({
-    ...transportConfig,
-    auth: { ...transportConfig.auth, pass: '********' }
-  }));
-
   const transporter = nodemailer.createTransport(transportConfig);
 
   // Verify connection
