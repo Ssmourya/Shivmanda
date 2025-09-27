@@ -183,25 +183,25 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
     <main className="min-h-screen bg-[var(--background)]">
       <section className="relative h-[50vh] w-full">
         {/* Logos on Right Side */}
-        {hasLogos && (
+       {hasLogos && (
           <div className="absolute top-4 right-0 z-10 flex flex-row gap-2 md:gap-4">
             {project?.logoImg?.map((logo, index) => (
               <div
                 key={index}
                 className="relative  w-[60%] h-auto md:w-[85%] md:h-auto max-w-xs overflow-hidden shadow-lg"
               >
-                <Image
+                {project.slug !== 'synthetic-fibre' &&<Image
                   src={logo}
                   alt={`${project.name} Logo ${index + 1}`}
                   width={130}
                   height={100}
                   className="object-cover"
                 />
+            }
               </div>
             ))}
           </div>
         )}
-
         <Image
           src={
             project.bgImage ||
